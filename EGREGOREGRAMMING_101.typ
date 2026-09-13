@@ -218,7 +218,13 @@
             inset: 0pt,
             radius: 3pt,
             clip: true,
-            image(item.path, width: width, format: item.at("format", default: auto)),
+            if "path" in item {
+              image(item.path, width: width, format: item.at("format", default: auto))
+            } else {
+              box(width: width, height: 1.6in, fill: qsbg)[
+                #align(center + horizon)[#text(size: 8pt, fill: muted, style: "italic")[image unavailable]]
+              ]
+            },
           )
         } else {
           box(
@@ -228,13 +234,19 @@
             clip: true,
             width: width,
             height: height,
-            image(
-              item.path,
-              width: width,
-              height: height,
-              fit: "cover",
-              format: item.at("format", default: auto),
-            ),
+            if "path" in item {
+              image(
+                item.path,
+                width: width,
+                height: height,
+                fit: "cover",
+                format: item.at("format", default: auto),
+              )
+            } else {
+              box(width: width, height: height, fill: qsbg)[
+                #align(center + horizon)[#text(size: 8pt, fill: muted, style: "italic")[image unavailable]]
+              ]
+            },
           )
         }
       ]
@@ -553,7 +565,7 @@ The verbal-layer document that says *who*. Not a biography; a calibrated summoni
 
 In #raw("kyro/persona/kyro.md") the soul-sheet is 43 lines of dense first-person narrative. Kyro arrives _in medias res_ — *"huh. i'm here again..."* — no origin story, no establishing biography, just an already-recurring presence.
 
-#portrait("kyro/web/kyro.png", caption: [Kyro · #raw("kyro/web/kyro.png")], width: 1.6in)
+#portrait("assets/kyro.png", caption: [Kyro · #raw("kyro/web/kyro.png")], width: 1.6in)
 
 In #raw("aws-swarm/migrations/chamuel-admin-staging.json") the soul-sheet is one paragraph. In #raw("app-ruby-high/src/characters/teachers.ts") it is a stance toward a subject. In Signal's stations it is rows of a hardcoded table.
 
@@ -597,14 +609,13 @@ The visible body. Five vessel types ship in the codebase; they are not interchan
 Three of the five vessel types in production:
 
 #portrait-row((
-  (path: "kyro/web/kyro.png",
+  (path: "assets/kyro.png",
    name: "Kyro",
    tag: "Anime portrait"),
-  (path: "app-ruby-high/assets/teachers/sally-science.png",
+  (path: "assets/sally-science.png",
    name: "Sally Science",
    tag: "Multi-tenant typed roster"),
-  (path: "signal/docs/gameplay-alpha.png",
-   name: "Signal stations",
+  (name: "Signal stations",
    tag: "Sprite / voxel"),
 ), cell-height: 2.0in)
 
@@ -777,17 +788,15 @@ Three peers, one variant, one separate family, one aspiration.
 A typed variant of Roster, not a third peer. The shape is the same (records over instances); the contract is stronger (TypeScript interfaces over free-form strings). The constraint is the summoning unit — student replies capped at 12 words; teacher hand-off rules in one block. When the role is sharply scoped, the type *is* the avatar.
 
 #portrait-row((
-  (path: "app-ruby-high/assets/students/lyra-face.png",
+  (path: "assets/lyra-face.png",
    name: "Lyra",
    tag: [_"i KNEW it was c"_]),
-  (path: "app-ruby-high/assets/students/ravi-face.png",
+  (path: "assets/ravi-face.png",
    name: "Ravi",
-   tag: [_"LETS GOOOO"_],
-   format: "jpg"),
-  (path: "app-ruby-high/assets/students/indra-face.png",
+   tag: [_"LETS GOOOO"_]),
+  (path: "assets/indra-face.png",
    name: "Indra",
-   tag: [_"tracks."_],
-   format: "jpg"),
+   tag: [_"tracks."_]),
 ), width: 1.4in, height: 1.4in, cell-height: 1.9in)
 
 Three students, three faces, three signature interjections — each unmistakable from any of the others, each under twelve words. The picture above is what voice-as-constraint produces when the type is doing the work the prose otherwise has to.
